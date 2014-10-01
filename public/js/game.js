@@ -40,65 +40,42 @@ function Deer($world) {
   setInterval(this.move.bind(this), 50);
 }
 
-// reset to be a degree from 0 - 360
-Deer.prototype.setDirection = function(currentVal) {
-  var dir = Math.floor( Math.random() * 9 + 1 );
-  while (dir == 5 || dir == currentVal) {
-    dir = Math.floor( Math.random() * 9 + 1 );
-  }
-  return dir;
+// rand num bw 1 and 360
+Deer.prototype.setDirection = function() {
+  return Math.floor( Math.random() * 360 + 1 );
 }
 
-
-// redo case statement to take angles into account
-
-// update this.speed for diagonal movement
-// maybe change both x and y in diag mvment
-// to sqrt(speed/2) ??
 Deer.prototype.move = function() {
-    console.log("in Deer.prototype.move");
-    console.log("this.dir: "+this.dir);
-    switch(this.dir) {
-    case 1:
-      this.x -= this.speed;
-      this.y += this.speed;
-      break;
-    case 2:
-      this.y += this.speed;
-      break;
-    case 3:
-      this.x += this.speed;
-      this.y += this.speed;
-      break;
-    case 4:
-      this.x -= this.speed;
-      break;
-    case 6:
-      this.x += this.speed;
-      break;
-    case 7:
-      this.x -= this.speed;
-      this.y += this.speed;
-      break;
-    case 8:
-      this.y -= this.speed;
-      break;
-    case 9:
-      this.x += this.speed;
-      this.y += this.speed;
-      break;
+  if (this.dir > 0 && this.dir <= 90) {
+    // if in quadrant I: add to x and y
+    this.x += this.speed;
+    this.y += this.speed;
+  } else if (this.dir > 90 && this.dir <= 180) {
+    // if in quadrant II: add to x and subtract from y
+    this.x += this.speed;
+    this.y -= this.speed;
+  } else if (this.dir > 180 && this.dir <= 270) {
+    // if in quadrant III: subtract from x and y
+    this.x -= this.speed;
+    this.y -= this.speed;
+  } else if (this.dir > 270 && this.dir <= 360) {
+    // if in quadrant IV: subtract from x and add to y
+    this.x -= this.speed;
+    this.y += this.speed;
   }
+
   if (this.inBounds()) {
     this.updatePosition();
   } else {
-    // change this set this.dir to 180
-    this.dir = this.setDirection();
+    if (this.dir > 180) {
+      this.dir = this.dir - 180;
+    } else {
+      this.dir = this.dir + 180;
+    }
   }
 }
 
 Deer.prototype.inBounds = function() {
-  // debugger;
-  console.log("in inBounds!!!!!");
   return (this.x > 0 &&
           this.x < (this.$world.width() - this.$html.width()) &&
           this.y > 0 &&
