@@ -46,31 +46,24 @@ Deer.prototype.setDirection = function() {
 }
 
 Deer.prototype.move = function() {
-  if (this.dir > 0 && this.dir <= 90) {
-    // if in quadrant I: add to x and y
-    this.x += this.speed;
-    this.y += this.speed;
-  } else if (this.dir > 90 && this.dir <= 180) {
-    // if in quadrant II: add to x and subtract from y
-    this.x += this.speed;
-    this.y -= this.speed;
-  } else if (this.dir > 180 && this.dir <= 270) {
-    // if in quadrant III: subtract from x and y
-    this.x -= this.speed;
-    this.y -= this.speed;
-  } else if (this.dir > 270 && this.dir <= 360) {
-    // if in quadrant IV: subtract from x and add to y
-    this.x -= this.speed;
-    this.y += this.speed;
-  }
+  var oldX = this.x;
+  var oldY = this.y;
+  // convert degrees to radians
+  var xSpeed = Math.cos( (this.dir / 180) * Math.PI ) * this.speed;
+  var ySpeed = Math.sin( (this.dir / 180) * Math.PI ) * this.speed;
+  this.x += xSpeed;
+  this.y += ySpeed;
 
   if (this.inBounds()) {
     this.updatePosition();
+    this.dir += (Math.random() * 20 - 10);
   } else {
-    if (this.dir > 180) {
-      this.dir = this.dir - 180;
+    this.x = oldX;
+    this.y = oldY;
+    if (this.dir > 180 ) {
+      this.dir -= 180;
     } else {
-      this.dir = this.dir + 180;
+      this.dir += 180;
     }
   }
 }
