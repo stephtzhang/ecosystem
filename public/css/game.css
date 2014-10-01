@@ -11,6 +11,7 @@
   width: 70px;
   height: 70px;
   position: absolute;
+  z-index: 1;
 }
 
 .deer {
@@ -19,6 +20,7 @@
   width: 63px;
   height: 57px;
   position: absolute;
+  z-index: 0;
 }
 
 .tree {
@@ -27,4 +29,5 @@
   width: 58px;
   height: 60px;
   position: absolute;
+  z-index: -1;
 }

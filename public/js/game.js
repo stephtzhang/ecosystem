@@ -19,8 +19,8 @@ function Tiger($world) {
   this.$world = $world;
   this.$html = $("<div class='tiger'></div>");
   this.$world.append(this.$html);
-  this.dir = "left";
-  this.speed = 3;
+  this.x = Math.floor( Math.random() * ($world.width() - this.$html.width() ) );
+  this.y = Math.floor( Math.random() * ($world.height() - this.$html.height() ) );
   this.updatePosition();
 }
 
@@ -28,6 +28,9 @@ function Deer($world) {
   this.$world = $world;
   this.$html = $("<div class='deer'></div>");
   this.$world.append(this.$html);
+  this.x = Math.floor( Math.random() * ($world.width() - this.$html.width() ) );
+  this.y = Math.floor( Math.random() * ($world.height() - this.$html.height() ) );
+  this.updatePosition();
 }
 
 function Tree($world) {
@@ -36,7 +39,6 @@ function Tree($world) {
   this.$world.append(this.$html);
   this.x = Math.floor( Math.random() * ($world.width() - this.$html.width() ) );
   this.y = Math.floor( Math.random() * ($world.height() - this.$html.height() ) );
-  console.log()
   this.updatePosition();
 }
 
@@ -44,4 +46,7 @@ Tree.prototype.updatePosition = function() {
   this.$html.css('left', this.x);
   this.$html.css('top', this.y);
 }
+
+Tiger.prototype.updatePosition = Tree.prototype.updatePosition;
+Deer.prototype.updatePosition = Tree.prototype.updatePosition;
 
