@@ -2,9 +2,49 @@
 // setInterval(game.process.bind(game), 20); // 50 FPS
 function Game(tigerNum, deerNum, treeNum) {
   this.$world = $('#world');
-  this.tigers = this.createBeings(Tiger, tigerNum, tiger);
-  this.deer = this.createBeings(Deer, deerNum, tiger);
-  this.trees = this.createBeings(Tree, treeNum, tree);
+  this.tigers = this.createBeings(Tiger, tigerNum);
+  this.deer = this.createBeings(Deer, deerNum);
+  this.trees = this.createBeings(Tree, treeNum);
+  setInterval(this.process.bind(this), 50);
+}
+
+Game.prototype.process = function() {
+  this.deer.forEach(function(deer) {
+    deer.move();
+  })
+  this.detectCollision();
+}
+
+Game.prototype.detectCollision = function() {
+  var trees = this.trees;
+  // convert to map using a boolean return for collision
+  this.deer.forEach(function(deer) {
+    trees.forEach(function(tree) {
+
+      tree.x >= deer.x && tree.x <= deer.x + deer.width
+      && tree.y >= deer.y && tree.y <= deer.y + deer.height ||
+      tree.x >= deer.x && tree.x <= deer.x + deer.width
+      && tree.y + tree.height >= deer.y && tree.y + tree.height >= deer.y + deer.height ||
+      tree.x + tree.width >= deer.x && deer.x <= deer.width
+      && tree.y >= deer.y && tree.y <= deer.y + deer.height ||
+      tree.x + tree.width is bw deer.x &&  deer.x + deer.width
+      && tree.y + tree.height >= deer.y &&  tree.y + tree.height <= deer.y + deer.height
+
+      // tree.x
+      // tree.y
+      // tree.x + tree.width
+      // tree.y + tree.height
+
+      // deer.x
+      // deer.y
+      // deer.x + tree.width
+      // deer.y + tree.height
+
+      // check if tree x, y, x2, y2 is within
+      // deer x1 => x2, y1 => y2 range
+      // return array of collided trees and kill
+    })
+  })
 }
 
 Game.prototype.createBeings = function(beingClass, beingNum, divName) {
@@ -21,6 +61,8 @@ function Tiger($world) {
   this.$world = $world;
   this.$html = $("<div class='tiger'></div>");
   this.$world.append(this.$html);
+  this.width = this.$html.width();
+  this.height = this.$html.height();
   this.x = Math.floor( Math.random() * ($world.width() - this.$html.width() ) );
   this.y = Math.floor( Math.random() * ($world.height() - this.$html.height() ) );
   this.updatePosition();
@@ -32,15 +74,16 @@ function Deer($world) {
   this.$world = $world;
   this.$html = $("<div class='deer'></div>");
   this.$world.append(this.$html);
+  this.width = this.$html.width();
+  this.height = this.$html.height();
   this.x = Math.floor( Math.random() * ($world.width() - this.$html.width() ) );
   this.y = Math.floor( Math.random() * ($world.height() - this.$html.height() ) );
   this.updatePosition();
   this.dir = this.setDirection();
   this.speed = 10;
-  setInterval(this.move.bind(this), 50);
+  // setInterval(this.move.bind(this), 50);
 }
 
-// rand num bw 1 and 360
 Deer.prototype.setDirection = function() {
   return Math.floor( Math.random() * 360 + 1 );
 }
@@ -56,6 +99,7 @@ Deer.prototype.move = function() {
 
   if (this.inBounds()) {
     this.updatePosition();
+    // change direction slightly for natural movement
     this.dir += (Math.random() * 20 - 10);
   } else {
     this.x = oldX;
@@ -82,6 +126,8 @@ function Tree($world) {
   this.$world = $world;
   this.$html = $("<div class='tree'></div>");
   this.$world.append(this.$html);
+  this.width = this.$html.width();
+  this.height = this.$html.height();
   this.x = Math.floor( Math.random() * ($world.width() - this.$html.width() ) );
   this.y = Math.floor( Math.random() * ($world.height() - this.$html.height() ) );
   this.updatePosition();

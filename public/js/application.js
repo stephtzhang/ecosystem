@@ -5,6 +5,7 @@ $(function() {
     trees = $('#tree').val();
 
     game = new Game(tigers, deer, trees);
+    // setInterval(game.process.bind(game), 50);
   })
 });
 
