@@ -1,25 +1,27 @@
-#arena {
+#world {
   width: 600px;
   height: 600px;
-  margin: auto;
   margin-top: 50px;
   border: 1px solid #000;
 }
 
 .tiger {
   background-image: url('../img/tiger.jpeg');
+  background-size: cover;
   width: 70px;
   height: 70px;
 }
 
 .deer {
   background-image: url('../img/deer.gif');
+  background-size: cover;
   width: 63px;
   height: 57px;
 }
 
 .tree {
   background-image: url('../img/tree.gif');
+  background-size: cover;
   width: 58px;
   height: 60px;
 }
