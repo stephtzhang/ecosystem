@@ -1,0 +1,12 @@
+<div class="survey">
+<h1>Your Surveys</h1>
+<% @surveys.reverse.each do |survey| %>
+  <form id="delete_survey" action="/survey/<%= survey.id %>" method="POST">
+    <h2><a href="/survey/<%= survey.id %>"><%= survey.title %></a></h2>
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="submit" name="delete_survey" value="Delete" class="btn btn-default">
+  </form>
+  <br>
+<% end %>
+</div>
+

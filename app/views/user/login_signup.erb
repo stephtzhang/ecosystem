@@ -1,0 +1,40 @@
+<!-- sign in -->
+<div class="form-container">
+  <% if flash[:sign_in_error]  %>
+    <div class="error">
+      <%= flash[:sign_in_error] %><br>
+    </div>
+  <% end %>
+  <br>
+  <form action='/login' method='POST' role=form>
+    <div class="form-group">
+      <input type="text" class="form-control" name="name" id="username" placeholder="Username">
+    </div>
+    <div class="form-group">
+      <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+    </div>
+    <input type="submit" value="Sign In" class="btn btn-default">
+  </form>
+
+<!-- create user -->
+  <br><br>
+  <% if flash[:new_account_error]  %>
+    <div class="error">
+    <% flash[:new_account_error].each do |attribute, messages| %>
+      <% messages.each do |message| %>
+        <%= attribute.capitalize %> <%= message %><br>
+      <% end %>
+    <% end %>
+    </div>
+  <% end %>
+  <br>
+  <form action='/user' method='POST' role=form>
+    <div class="form-group">
+      <input type="text" class="form-control" name="user_info[name]" id="username" placeholder="Username">
+    </div>
+    <div class="form-group">
+      <input type="password" class="form-control" name="user_info[password]" id="password" placeholder="Password">
+    </div>
+    <input type="submit" value="New Account" class="btn btn-default">
+  </form>
+</div>
