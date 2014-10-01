@@ -1,8 +1,8 @@
 #world {
   width: 600px;
   height: 600px;
-  margin-top: 50px;
   border: 1px solid #000;
+  position: relative;
 }
 
 .tiger {
@@ -10,6 +10,7 @@
   background-size: cover;
   width: 70px;
   height: 70px;
+  position: absolute;
 }
 
 .deer {
@@ -17,6 +18,7 @@
   background-size: cover;
   width: 63px;
   height: 57px;
+  position: absolute;
 }
 
 .tree {
@@ -24,4 +26,5 @@
   background-size: cover;
   width: 58px;
   height: 60px;
+  position: absolute;
 }
