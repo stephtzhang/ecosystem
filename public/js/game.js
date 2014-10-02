@@ -15,10 +15,12 @@ Game.prototype.process = function() {
 }
 
 Game.prototype.handleCollisions = function(collisions) {
+  var trees = this.trees;
   collisions.forEach(function(collision) {
+    debugger;
     collision.$html.css('display','none');
-    collisionIndex = this.trees.indexOf(collision);
-    this.trees.splice(collisionIndex, 1);
+    collisionIndex = trees.indexOf(collision);
+    trees.splice(collisionIndex, 1);
   });
 }
 
@@ -32,7 +34,6 @@ Game.prototype.detectCollision = function() {
       var collision = ( Math.abs(treeCenter[0] - deerCenter[0]) <= tree.width / 2 + deer.width / 2 &&
                         Math.abs(treeCenter[1] - deerCenter[1]) <= tree.height / 2 + deer.height / 2
                       )
-      debugger;
       if (collision == true) {
         collisions.push(tree)
       }
