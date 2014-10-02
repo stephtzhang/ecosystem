@@ -6,6 +6,13 @@ $(function() {
 
     game = new Game(tigers, deer, trees);
   })
+
+  $('#score_game').submit(function(event) {
+    event.preventDefault();
+    console.log("yayyyy");
+  })
+
+
 });
 
 

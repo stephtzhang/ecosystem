@@ -3,21 +3,36 @@ function Game(tigerNum, deerNum, treeNum) {
   this.tigers = this.createBeings(Tiger, tigerNum);
   this.deer = this.createBeings(Deer, deerNum);
   this.trees = this.createBeings(Tree, treeNum);
-  setInterval(this.process.bind(this), 50);
+  this.interval = setInterval(this.process.bind(this), 50);
+  this.score = 0;
 }
 
 Game.prototype.process = function() {
+  this.score += 1;
   this.deer.forEach(function(deer) {
     deer.move();
   })
-  collisions = this.detectCollision();
-  this.handleCollisions(collisions);
+  treeCollisions = this.detectCollision();
+  this.handleCollisions(treeCollisions);
+  if (this.checkGameover()) {
+    clearInterval(this.interval);
+    alert("Game over! You scored " + this.score);
+    // enter score into user profile and ask to play again
+    document.getElementById("score_game").submit();
+  }
+}
+
+Game.prototype.checkGameover = function() {
+  return this.trees.length == 0;
+}
+
+Game.prototype.score = function() {
+
 }
 
 Game.prototype.handleCollisions = function(collisions) {
   var trees = this.trees;
   collisions.forEach(function(collision) {
-    debugger;
     collision.$html.css('display','none');
     collisionIndex = trees.indexOf(collision);
     trees.splice(collisionIndex, 1);

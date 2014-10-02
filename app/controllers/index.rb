@@ -2,6 +2,7 @@ enable :sessions
 use Rack::Flash
 
 get '/' do
+  @user = User.find(session[:user_id]) if session[:user_id]
   erb :index
 end
 
@@ -34,5 +35,11 @@ post '/login' do
     flash[:sign_in_error] = "Login password combination incorrect"
     redirect '/login'
   end
+end
+
+post '/game' do
+  # how to get score??
+  Game.create(user_id: params[:user_id])
+
 end
 
