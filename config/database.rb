@@ -39,5 +39,6 @@ ActiveRecord::Base.establish_connection(
   :password => db.password,
   :database => DB_NAME,
   :encoding => 'utf8',
-  :pool => 10
+  :pool => 10,
+  :timeout => 60 * 2 # 2 min timeout
 )
