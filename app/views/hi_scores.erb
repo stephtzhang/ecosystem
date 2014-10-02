@@ -1,3 +1,5 @@
-<% @hi_scores.each do |result| %>
-  <p><%= result.score %> - <%= result.user.name if result.user %></p>
-<% end %>
+<div class="small_centered">
+  <% @hi_scores.each_with_index do |result, index| %>
+    <h2><%= index + 1 %>. <%= result.score %> - <%= result.user.name if result.user %></h2>
+  <% end %>
+</div>

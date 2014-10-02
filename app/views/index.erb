@@ -1,6 +1,7 @@
 <div id="world">
 </div>
-<div>
+
+<div class="centered_form">
   <form id="game_info">
 <!--  <div class="form-group">
       <input id="tiger" class="form-control" name="tiger" placeholder="Tigers">
@@ -14,6 +15,7 @@
     <input type="button" value="Go!" class="btn btn-default">
   </form>
 </div>
+
 <div class="hidden_form">
   <form id="score_game" action="/game" method="POST">
     <input id="user_id" name="user_id" value="<%= @user.id if @user %>" />

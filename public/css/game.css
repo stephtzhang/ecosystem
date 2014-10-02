@@ -2,8 +2,10 @@
   background-image: url('../img/grass.jpg');
   background-size: cover;
   width: 600px;
+  margin: auto;
   height: 600px;
-  border: 1px solid #000;
+  border: 1px;
+  border-radius: 12.5px;
   position: relative;
   z-index: -2;
 }

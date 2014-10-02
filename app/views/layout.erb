@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <link rel="stylesheet" href="/css/normalize.css">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/application.css">
   <link rel="stylesheet" href="/css/game.css">
 
@@ -13,6 +14,7 @@
 <body>
 <nav class="navbar navbar-default" role="navigation">
       <ul class="nav navbar-nav">
+        <li><a href="/">Play</a></li>
         <li><a href="/hi_scores">Hi Scores</a></li>
       <% if session[:user_id] %>
         <li><a href="/logout">Logout</a></li>
@@ -21,7 +23,9 @@
       <% end %>
     </ul>
   </nav>
-  <%= yield %>
+  <div class = "container">
+    <%= yield %>
+  </div>
 </body>
 </html>
 
