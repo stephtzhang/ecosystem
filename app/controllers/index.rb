@@ -15,6 +15,11 @@ get '/logout' do
   erb :index
 end
 
+get '/hi_scores' do
+  @hi_scores = Game.top_scores(5)
+  erb :hi_scores
+end
+
 post '/user' do
   user = User.create(params[:user_info])
   if user.valid?

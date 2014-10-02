@@ -1,0 +1,3 @@
+<% @hi_scores.each do |result| %>
+  <p><%= result.score %> - <%= result.user.name if result.user %></p>
+<% end %>

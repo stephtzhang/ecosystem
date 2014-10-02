@@ -13,11 +13,11 @@
 <body>
 <nav class="navbar navbar-default" role="navigation">
       <ul class="nav navbar-nav">
+        <li><a href="/hi_scores">Hi Scores</a></li>
       <% if session[:user_id] %>
         <li><a href="/logout">Logout</a></li>
       <% else %>
         <li><a href="/login">Login</a></li>
-        <li><a href="/login">Sign Up</a></li>
       <% end %>
     </ul>
   </nav>
