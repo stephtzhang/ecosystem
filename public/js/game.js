@@ -19,15 +19,20 @@ Game.prototype.process = function() {
     alert("Game over! You scored " + this.score + ".");
     $("#score_val").attr("value", this.score.toString());
     $("#score_game").trigger("submit");
+    this.clearDeer();
   }
+}
+
+Game.prototype.clearDeer = function() {
+  var deers = this.deer;
+  deers.forEach(function(deer) {
+    deer.$html.css('display','none');
+  });
+  deers = [];
 }
 
 Game.prototype.checkGameover = function() {
   return this.trees.length == 0;
-}
-
-Game.prototype.score = function() {
-
 }
 
 Game.prototype.handleCollisions = function(collisions) {

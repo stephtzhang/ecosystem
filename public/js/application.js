@@ -9,11 +9,11 @@ $(function() {
 
   $('#score_game').submit(function(event) {
     event.preventDefault();
+    $('#game_info')[0].reset();
+
     var url = $(this).attr("action");
     var data = $(this).serialize();
-    $.post(url, data).done(function(response) {
-      $('#game_info')[0].reset();
-    })
+    $.post(url, data);
   })
 });
 
