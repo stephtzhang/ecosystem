@@ -2,9 +2,9 @@
 </div>
 <div>
   <form id="game_info">
-    <div class="form-group">
+<!--     <div class="form-group">
       <input id="tiger" class="form-control" name="tiger" placeholder="Tigers">
-    </div>
+    </div> -->
     <div class="form-group">
       <input id="deer" class="form-control" name="deer" placeholder="Deer">
     </div>
@@ -16,6 +16,7 @@
 </div>
 <div class="hidden_form">
   <form id="score_game" action="/game" method="POST">
-  <input id="user_id" name="user_id" value="<%= @user.id if @user %>" />
+    <input id="user_id" name="user_id" value="<%= @user.id if @user %>" />
+    <input id="score_val" name="score" />
   </form>
 </div>

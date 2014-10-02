@@ -39,7 +39,8 @@ end
 
 post '/game' do
   # how to get score??
-  Game.create(user_id: params[:user_id])
+  Game.create(user_id: params[:user_id], score: params[:score])
 
+  redirect "/"
 end
 

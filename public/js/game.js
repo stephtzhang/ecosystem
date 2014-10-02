@@ -1,6 +1,6 @@
-function Game(tigerNum, deerNum, treeNum) {
+function Game(deerNum, treeNum) {
   this.$world = $('#world');
-  this.tigers = this.createBeings(Tiger, tigerNum);
+  // this.tigers = this.createBeings(Tiger, tigerNum);
   this.deer = this.createBeings(Deer, deerNum);
   this.trees = this.createBeings(Tree, treeNum);
   this.interval = setInterval(this.process.bind(this), 50);
@@ -18,7 +18,8 @@ Game.prototype.process = function() {
     clearInterval(this.interval);
     alert("Game over! You scored " + this.score);
     // enter score into user profile and ask to play again
-    document.getElementById("score_game").submit();
+    $("#score_val").attr("value", this.score.toString());
+    $("#score_game").trigger("submit");
   }
 }
 

@@ -1,18 +1,18 @@
 $(function() {
   $('#game_info > input[type=button]').click(function(event) {
-    tigers = $('#tiger').val();
+    // tigers = $('#tiger').val();
     deer = $('#deer').val();
     trees = $('#tree').val();
 
-    game = new Game(tigers, deer, trees);
+    game = new Game(deer, trees);
   })
 
   $('#score_game').submit(function(event) {
     event.preventDefault();
-    console.log("yayyyy");
+    console.log($(this).serialize());
+    var url = $(this).attr("action");
+    var data = $(this).serialize();
+    $.post(url, data);
   })
-
-
 });
-
 
