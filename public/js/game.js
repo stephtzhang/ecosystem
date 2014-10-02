@@ -1,5 +1,3 @@
-// should I put setInterval in Game class or in doc ready?
-// setInterval(game.process.bind(game), 20); // 50 FPS
 function Game(tigerNum, deerNum, treeNum) {
   this.$world = $('#world');
   this.tigers = this.createBeings(Tiger, tigerNum);
@@ -9,7 +7,6 @@ function Game(tigerNum, deerNum, treeNum) {
 }
 
 Game.prototype.process = function() {
-  debugger;
   this.deer.forEach(function(deer) {
     deer.move();
   })
@@ -18,10 +15,10 @@ Game.prototype.process = function() {
 }
 
 Game.prototype.handleCollisions = function(collisions) {
-  debugger;
   collisions.forEach(function(collision) {
     collision.$html.css('display','none');
-    array.splice(array.indexOf(collision));
+    collisionIndex = this.trees.indexOf(collision);
+    this.trees.splice(collisionIndex, 1);
   });
 }
 
@@ -30,33 +27,17 @@ Game.prototype.detectCollision = function() {
   collisions = []
   this.deer.forEach(function(deer) {
     trees.forEach(function(tree) {
-      var collision = ( tree.x >= deer.x && tree.x <= deer.x + deer.width
-                      && ( tree.y >= deer.y && tree.y <= deer.y + deer.height ||
-                      tree.y + tree.height >= deer.y && tree.y + tree.height >= deer.y + deer.height ) ||
-                      tree.x + tree.width <= deer.x && tree.x + tree.width <= deer.x + deer.width
-                      && ( tree.y >= deer.y && tree.y <= deer.y + deer.height ||
-                      tree.y + tree.height >= deer.y &&  tree.y + tree.height <= deer.y + deer.height )
+      treeCenter = [(tree.width - tree.x) + ((tree.width - tree.x) / 2), (tree.height - tree.y) + ((tree.height - tree.y) / 2)]
+      deerCenter = [(deer.width - deer.x) + ((deer.width - deer.x)/ 2), (deer.height - deer.y) + ((deer.height - deer.y) / 2) ]
+      var collision = ( Math.abs(treeCenter[0] - deerCenter[0]) <= tree.width / 2 + deer.width / 2 &&
+                        Math.abs(treeCenter[1] - deerCenter[1]) <= tree.height / 2 + deer.height / 2
                       )
-      // console.log(collision);
+      debugger;
       if (collision == true) {
         collisions.push(tree)
       }
-      // tree.x
-      // tree.y
-      // tree.x + tree.width
-      // tree.y + tree.height
-
-      // deer.x
-      // deer.y
-      // deer.x + tree.width
-      // deer.y + tree.height
-
-      // check if tree x, y, x2, y2 is within
-      // deer x1 => x2, y1 => y2 range
-      // return array of collided trees and kill
     })
   })
-  // debugger;
   return collisions;
 }
 
