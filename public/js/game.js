@@ -9,27 +9,38 @@ function Game(tigerNum, deerNum, treeNum) {
 }
 
 Game.prototype.process = function() {
+  debugger;
   this.deer.forEach(function(deer) {
     deer.move();
   })
-  this.detectCollision();
+  collisions = this.detectCollision();
+  this.handleCollisions(collisions);
+}
+
+Game.prototype.handleCollisions = function(collisions) {
+  debugger;
+  collisions.forEach(function(collision) {
+    collision.$html.css('display','none');
+    array.splice(array.indexOf(collision));
+  });
 }
 
 Game.prototype.detectCollision = function() {
   var trees = this.trees;
-  // convert to map using a boolean return for collision
+  collisions = []
   this.deer.forEach(function(deer) {
     trees.forEach(function(tree) {
-
-      tree.x >= deer.x && tree.x <= deer.x + deer.width
-      && tree.y >= deer.y && tree.y <= deer.y + deer.height ||
-      tree.x >= deer.x && tree.x <= deer.x + deer.width
-      && tree.y + tree.height >= deer.y && tree.y + tree.height >= deer.y + deer.height ||
-      tree.x + tree.width >= deer.x && deer.x <= deer.width
-      && tree.y >= deer.y && tree.y <= deer.y + deer.height ||
-      tree.x + tree.width is bw deer.x &&  deer.x + deer.width
-      && tree.y + tree.height >= deer.y &&  tree.y + tree.height <= deer.y + deer.height
-
+      var collision = ( tree.x >= deer.x && tree.x <= deer.x + deer.width
+                      && ( tree.y >= deer.y && tree.y <= deer.y + deer.height ||
+                      tree.y + tree.height >= deer.y && tree.y + tree.height >= deer.y + deer.height ) ||
+                      tree.x + tree.width <= deer.x && tree.x + tree.width <= deer.x + deer.width
+                      && ( tree.y >= deer.y && tree.y <= deer.y + deer.height ||
+                      tree.y + tree.height >= deer.y &&  tree.y + tree.height <= deer.y + deer.height )
+                      )
+      // console.log(collision);
+      if (collision == true) {
+        collisions.push(tree)
+      }
       // tree.x
       // tree.y
       // tree.x + tree.width
@@ -45,6 +56,8 @@ Game.prototype.detectCollision = function() {
       // return array of collided trees and kill
     })
   })
+  // debugger;
+  return collisions;
 }
 
 Game.prototype.createBeings = function(beingClass, beingNum, divName) {
