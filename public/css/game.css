@@ -1,8 +1,11 @@
 #world {
+  background-image: url('../img/grass.jpg');
+  background-size: cover;
   width: 600px;
   height: 600px;
   border: 1px solid #000;
   position: relative;
+  z-index: -2;
 }
 
 .tiger {
