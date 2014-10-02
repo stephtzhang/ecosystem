@@ -16,8 +16,7 @@ Game.prototype.process = function() {
   this.handleCollisions(treeCollisions);
   if (this.checkGameover()) {
     clearInterval(this.interval);
-    alert("Game over! You scored " + this.score);
-    // enter score into user profile and ask to play again
+    alert("Game over! You scored " + this.score + ".");
     $("#score_val").attr("value", this.score.toString());
     $("#score_game").trigger("submit");
   }
@@ -92,7 +91,6 @@ function Deer($world) {
   this.updatePosition();
   this.dir = this.setDirection();
   this.speed = 10;
-  // setInterval(this.move.bind(this), 50);
 }
 
 Deer.prototype.setDirection = function() {
