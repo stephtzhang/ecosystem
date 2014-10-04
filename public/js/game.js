@@ -9,13 +9,7 @@ function Game(deerNum, treeNum) {
 
 Game.prototype.process = function() {
   this.score += 1;
-  // this.deer.forEach(function(deer) {
-  //   deer.move();
-  //   deer.roundsSinceLastMeal += 1;
-  // })
   this.playRound();
-  // this.handleCollisions(treeCollisions);
-  // add call to remove starved deer
 
   if (this.checkGameover()) {
     clearInterval(this.interval);
@@ -25,29 +19,12 @@ Game.prototype.process = function() {
   }
 }
 
-// Game.prototype.clearDeer = function() {
-//   var deers = this.deer;
-//   deers.forEach(function(deer) {
-//     deer.$html.css('display','none');
-//   });
-//   deers = [];
-// }
-
 Game.prototype.checkGameover = function() {
   debugger;
   return this.trees.length == 0 && this.deer.length == 0;
 }
 
-// Game.prototype.handleCollisions = function(collisions) {
-//   var trees = this.trees;
-//   collisions.forEach(function(collision) {
-//     collision.$html.css('display','none');
-//     var collisionIndex = trees.indexOf(collision);
-//     trees.splice(collisionIndex, 1);
-//   });
-// }
-
-// good:
+// combine removeTree and removeDeer to following:
 // Game.prototype.removeBeing = function(being, beingArray) {
 //   var beingArray = this.beingArray;
 //   var beingIndex = beingArray.indexOf(being);
@@ -57,7 +34,7 @@ Game.prototype.checkGameover = function() {
 Game.prototype.removeTree = function(tree) {
   var trees = this.trees;
   tree.$html.css('display','none');
-  treeIndex = trees.indexOf(collision);
+  treeIndex = trees.indexOf(tree);
   trees.splice(treeIndex, 1);
 }
 
@@ -130,7 +107,7 @@ function Deer($world) {
   this.y = Math.floor( Math.random() * ($world.height() - this.$html.height() ) );
   this.updatePosition();
   this.dir = this.setDirection();
-  this.speed = 10;
+  this.speed = 8;
   this.roundsSinceLastMeal = 0;
 }
 
