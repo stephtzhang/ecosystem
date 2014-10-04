@@ -46,11 +46,11 @@ Game.prototype.handleCollisions = function(collisions) {
 
 Game.prototype.detectCollision = function() {
   var trees = this.trees;
-  collisions = []
+  var collisions = []
   this.deer.forEach(function(deer) {
     trees.forEach(function(tree) {
-      treeCenter = [(tree.width - tree.x) + ((tree.width - tree.x) / 2), (tree.height - tree.y) + ((tree.height - tree.y) / 2)]
-      deerCenter = [(deer.width - deer.x) + ((deer.width - deer.x)/ 2), (deer.height - deer.y) + ((deer.height - deer.y) / 2) ]
+      var treeCenter = [(tree.width - tree.x) + ((tree.width - tree.x) / 2), (tree.height - tree.y) + ((tree.height - tree.y) / 2)]
+      var deerCenter = [(deer.width - deer.x) + ((deer.width - deer.x)/ 2), (deer.height - deer.y) + ((deer.height - deer.y) / 2) ]
       var collision = ( Math.abs(treeCenter[0] - deerCenter[0]) <= tree.width / 2 + deer.width / 2 &&
                         Math.abs(treeCenter[1] - deerCenter[1]) <= tree.height / 2 + deer.height / 2
                       )
