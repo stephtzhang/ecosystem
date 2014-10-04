@@ -9,57 +9,92 @@ function Game(deerNum, treeNum) {
 
 Game.prototype.process = function() {
   this.score += 1;
-  this.deer.forEach(function(deer) {
-    deer.move();
-  })
-  treeCollisions = this.detectCollision();
-  this.handleCollisions(treeCollisions);
+  // this.deer.forEach(function(deer) {
+  //   deer.move();
+  //   deer.roundsSinceLastMeal += 1;
+  // })
+  this.playRound();
+  // this.handleCollisions(treeCollisions);
+  // add call to remove starved deer
+
   if (this.checkGameover()) {
     clearInterval(this.interval);
     alert("Game over! You scored " + this.score + ".");
     $("#score_val").attr("value", this.score.toString());
     $("#score_game").trigger("submit");
-    this.clearDeer();
   }
 }
 
-Game.prototype.clearDeer = function() {
-  var deers = this.deer;
-  deers.forEach(function(deer) {
-    deer.$html.css('display','none');
-  });
-  deers = [];
-}
+// Game.prototype.clearDeer = function() {
+//   var deers = this.deer;
+//   deers.forEach(function(deer) {
+//     deer.$html.css('display','none');
+//   });
+//   deers = [];
+// }
 
 Game.prototype.checkGameover = function() {
-  return this.trees.length == 0;
+  debugger;
+  return this.trees.length == 0 && this.deer.length == 0;
 }
 
-Game.prototype.handleCollisions = function(collisions) {
+// Game.prototype.handleCollisions = function(collisions) {
+//   var trees = this.trees;
+//   collisions.forEach(function(collision) {
+//     collision.$html.css('display','none');
+//     var collisionIndex = trees.indexOf(collision);
+//     trees.splice(collisionIndex, 1);
+//   });
+// }
+
+// good:
+// Game.prototype.removeBeing = function(being, beingArray) {
+//   var beingArray = this.beingArray;
+//   var beingIndex = beingArray.indexOf(being);
+//   beingArray.splice(being, 1);
+// }
+
+Game.prototype.removeTree = function(tree) {
   var trees = this.trees;
-  collisions.forEach(function(collision) {
-    collision.$html.css('display','none');
-    collisionIndex = trees.indexOf(collision);
-    trees.splice(collisionIndex, 1);
-  });
+  tree.$html.css('display','none');
+  treeIndex = trees.indexOf(collision);
+  trees.splice(treeIndex, 1);
 }
 
-Game.prototype.detectCollision = function() {
+Game.prototype.removeDeer = function(deer) {
+  var allDeer = this.deer;
+  deer.$html.css('display','none');
+  deerIndex = allDeer.indexOf(deer);
+  allDeer.splice(deerIndex, 1);
+}
+
+Game.prototype.checkCollision = function(obj1, obj2) {
+  debugger;
+  var obj1Center = [(obj1.width - obj1.x) + ((obj1.width - obj1.x) / 2), (obj1.height - obj1.y) + ((obj1.height - obj1.y) / 2)];
+  var obj2Center = [(obj2.width - obj2.x) + ((obj2.width - obj2.x)/ 2), (obj2.height - obj2.y) + ((obj2.height - obj2.y) / 2) ];
+  return (  Math.abs(obj1Center[0] - obj2Center[0]) <= obj1.width / 2 + obj2.width / 2 &&
+            Math.abs(obj1Center[1] - obj2Center[1]) <= obj1.height / 2 + obj2.height / 2
+         )
+}
+
+Game.prototype.playRound = function() {
   var trees = this.trees;
-  var collisions = []
+  var game = this;
   this.deer.forEach(function(deer) {
+    deer.move();
+    deer.roundsSinceLastMeal += 1;
     trees.forEach(function(tree) {
-      var treeCenter = [(tree.width - tree.x) + ((tree.width - tree.x) / 2), (tree.height - tree.y) + ((tree.height - tree.y) / 2)]
-      var deerCenter = [(deer.width - deer.x) + ((deer.width - deer.x)/ 2), (deer.height - deer.y) + ((deer.height - deer.y) / 2) ]
-      var collision = ( Math.abs(treeCenter[0] - deerCenter[0]) <= tree.width / 2 + deer.width / 2 &&
-                        Math.abs(treeCenter[1] - deerCenter[1]) <= tree.height / 2 + deer.height / 2
-                      )
+      debugger;
+      var collision = game.checkCollision(tree, deer);
       if (collision == true) {
-        collisions.push(tree)
+        game.removeTree(tree);
+        deer.eat();
       }
     })
+    if (deer.starved() == true) {
+      game.removeDeer(deer);
+    }
   })
-  return collisions;
 }
 
 Game.prototype.createBeings = function(beingClass, beingNum, divName) {
@@ -96,6 +131,15 @@ function Deer($world) {
   this.updatePosition();
   this.dir = this.setDirection();
   this.speed = 10;
+  this.roundsSinceLastMeal = 0;
+}
+
+Deer.eat = function() {
+  this.roundsSinceLastMeal = 0;
+}
+
+Deer.prototype.starved = function() {
+  return this.roundsSinceLastMeal >= 100; // where round is 50 milliseconds
 }
 
 Deer.prototype.setDirection = function() {
