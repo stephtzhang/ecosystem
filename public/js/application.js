@@ -1,7 +1,5 @@
 $(function() {
   $('#game_info > input[type=button]').click(function(event) {
-    // ADD MAX VAL FOR INPUT and error handling for non integer input
-    // tigers = $('#tiger').val();
     deer = $('#deer').val();
     trees = $('#tree').val();
 
