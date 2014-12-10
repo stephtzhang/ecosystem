@@ -1,35 +1,28 @@
 function Game(deerNum, treeNum) {
   this.$world = $('#world');
-  // this.tigers = this.createBeings(Tiger, tigerNum);
   this.deer = this.createBeings(Deer, deerNum);
   this.trees = this.createBeings(Tree, treeNum);
   this.interval = setInterval(this.process.bind(this), 50);
-  this.score = 0;
+  this.startTime = new Date();
 }
 
 Game.prototype.process = function() {
-  this.score += 1;
   this.playRound();
 
   if (this.checkGameover()) {
     clearInterval(this.interval);
-    alert("Game over! You scored " + this.score + ".");
-    $("#score_val").attr("value", this.score.toString());
-    $("#score_game").trigger("submit");
+    alert("Game over! You scored " + this.getScore() + ".");
+    $('#game_info')[0].reset();
   }
 }
 
-Game.prototype.checkGameover = function() {
-  debugger;
-  return this.trees.length == 0 && this.deer.length == 0;
+Game.prototype.getScore = function() {
+  return Math.round((new Date() - this.startTime) / 10)
 }
 
-// combine removeTree and removeDeer to following:
-// Game.prototype.removeBeing = function(being, beingArray) {
-//   var beingArray = this.beingArray;
-//   var beingIndex = beingArray.indexOf(being);
-//   beingArray.splice(being, 1);
-// }
+Game.prototype.checkGameover = function() {
+  return this.trees.length == 0 && this.deer.length == 0;
+}
 
 Game.prototype.removeTree = function(tree) {
   var trees = this.trees;
