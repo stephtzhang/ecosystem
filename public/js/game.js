@@ -39,7 +39,6 @@ Game.prototype.removeDeer = function(deer) {
 }
 
 Game.prototype.checkCollision = function(obj1, obj2) {
-  debugger;
   var obj1Center = [(obj1.width - obj1.x) + ((obj1.width - obj1.x) / 2), (obj1.height - obj1.y) + ((obj1.height - obj1.y) / 2)];
   var obj2Center = [(obj2.width - obj2.x) + ((obj2.width - obj2.x)/ 2), (obj2.height - obj2.y) + ((obj2.height - obj2.y) / 2) ];
   return (  Math.abs(obj1Center[0] - obj2Center[0]) <= obj1.width / 2 + obj2.width / 2 &&
@@ -54,14 +53,13 @@ Game.prototype.playRound = function() {
     deer.move();
     deer.roundsSinceLastMeal += 1;
     trees.forEach(function(tree) {
-      debugger;
       var collision = game.checkCollision(tree, deer);
       if (collision == true) {
         game.removeTree(tree);
         deer.eat();
       }
     })
-    if (deer.starved() == true) {
+    if (deer.starved() == true && trees.length == 0) {
       game.removeDeer(deer);
     }
   })
@@ -74,97 +72,3 @@ Game.prototype.createBeings = function(beingClass, beingNum, divName) {
   }
   return beings;
 }
-
-////////////////// Tiger //////////////////
-
-function Tiger($world) {
-  this.$world = $world;
-  this.$html = $("<div class='tiger'></div>");
-  this.$world.append(this.$html);
-  this.width = this.$html.width();
-  this.height = this.$html.height();
-  this.x = Math.floor( Math.random() * ($world.width() - this.$html.width() ) );
-  this.y = Math.floor( Math.random() * ($world.height() - this.$html.height() ) );
-  this.updatePosition();
-}
-
-////////////////// Deer //////////////////
-
-function Deer($world) {
-  this.$world = $world;
-  this.$html = $("<div class='deer'></div>");
-  this.$world.append(this.$html);
-  this.width = this.$html.width();
-  this.height = this.$html.height();
-  this.x = Math.floor( Math.random() * ($world.width() - this.$html.width() ) );
-  this.y = Math.floor( Math.random() * ($world.height() - this.$html.height() ) );
-  this.updatePosition();
-  this.dir = this.setDirection();
-  this.speed = 8;
-  this.roundsSinceLastMeal = 0;
-}
-
-Deer.eat = function() {
-  this.roundsSinceLastMeal = 0;
-}
-
-Deer.prototype.starved = function() {
-  return this.roundsSinceLastMeal >= 100; // where round is 50 milliseconds
-}
-
-Deer.prototype.setDirection = function() {
-  return Math.floor( Math.random() * 360 + 1 );
-}
-
-Deer.prototype.move = function() {
-  var oldX = this.x;
-  var oldY = this.y;
-  // convert degrees to radians
-  var xSpeed = Math.cos( (this.dir / 180) * Math.PI ) * this.speed;
-  var ySpeed = Math.sin( (this.dir / 180) * Math.PI ) * this.speed;
-  this.x += xSpeed;
-  this.y += ySpeed;
-
-  if (this.inBounds()) {
-    this.updatePosition();
-    // change direction slightly for natural movement
-    this.dir += (Math.random() * 20 - 10);
-  } else {
-    this.x = oldX;
-    this.y = oldY;
-    if (this.dir > 180 ) {
-      this.dir -= 180;
-    } else {
-      this.dir += 180;
-    }
-  }
-}
-
-Deer.prototype.inBounds = function() {
-  return (this.x > 0 &&
-          this.x < (this.$world.width() - this.$html.width()) &&
-          this.y > 0 &&
-          this.y < (this.$world.height() - this.$html.height())
-         )
-}
-
-////////////////// Tree //////////////////
-
-function Tree($world) {
-  this.$world = $world;
-  this.$html = $("<div class='tree'></div>");
-  this.$world.append(this.$html);
-  this.width = this.$html.width();
-  this.height = this.$html.height();
-  this.x = Math.floor( Math.random() * ($world.width() - this.$html.width() ) );
-  this.y = Math.floor( Math.random() * ($world.height() - this.$html.height() ) );
-  this.updatePosition();
-}
-
-Tree.prototype.updatePosition = function() {
-  this.$html.css('left', this.x);
-  this.$html.css('top', this.y);
-}
-
-Tiger.prototype.updatePosition = Tree.prototype.updatePosition;
-Deer.prototype.updatePosition = Tree.prototype.updatePosition;
